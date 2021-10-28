@@ -1,0 +1,84 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+void playAgain(void);
+
+void game()
+{
+	int secretNum, guessNum, guessCount, guessLim;
+	guessCount = 0;
+	guessLim = 3;
+
+	srand(time(0));
+
+	secretNum = rand() % 10 + 1;
+
+	do
+	{
+		cout << "Make a guess from 1 to 10: ";
+		cin >> guessNum;
+
+		while (cin.fail())
+		{
+			cout << "Make a guess from 1 to 10: ";
+			cin.clear();
+			cin.ignore();
+			cin >> guessNum;
+		}
+			
+		if (secretNum < guessNum)
+			cout << "The secret number is lower!\n";
+		else if (secretNum > guessNum)
+			cout << "The secret number is higher!\n";
+
+		guessCount +=1;
+
+		if (secretNum != guessNum)
+			cout << "You have " << guessLim - guessCount << " guess(es) left!\n";
+		else
+			break;
+
+	} while (guessCount < guessLim);
+
+	if (secretNum == guessNum)
+		cout << "Congratulations! The secret number is " << secretNum << "!" << endl;
+	else if (guessCount == guessLim)
+		cout << "You lose :((" << endl;
+
+	playAgain();
+}
+
+void playAgain()
+{
+	string playAgain;
+
+	do
+	{
+		cout << "Would you like to play again? (y/n): ";
+		cin >> playAgain;
+
+		playAgain = tolower(playAgain[0]);
+
+	} while (playAgain != "y" && playAgain != "n");
+
+	if (playAgain == "y")
+	{
+		cout << "\n";
+		game();
+	}
+	else if (playAgain == "n")
+	{
+		cout << "\n";
+		cout << "Goodbye!";
+	}
+}
+
+int main()
+{
+	game();
+
+	return 0;
+}
